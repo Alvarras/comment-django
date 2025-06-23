@@ -1,0 +1,82 @@
+# ===================================================================
+#  Lingkungan Virtual (Virtual Environment)
+#  Ini harus menjadi prioritas utama untuk diabaikan!
+# ===================================================================
+/venv/
+/env/
+/.venv/
+/.env/
+/env.bak/
+/venv.bak/
+
+
+# ===================================================================
+#  File Rahasia & Konfigurasi Lokal (SANGAT PENTING!)
+#  Jangan pernah unggah file-file ini ke repositori publik.
+# ===================================================================
+# File yang berisi variabel lingkungan (API keys, secret key, db password)
+.env
+.env.*
+# File pengaturan lokal yang meng-override pengaturan utama
+local_settings.py
+local.py
+
+
+# ===================================================================
+#  Database
+#  Setiap developer harus punya database lokalnya sendiri.
+# ===================================================================
+*.sqlite3
+db.sqlite3
+db.sqlite3-journal
+*.dump
+*.sql
+
+
+# ===================================================================
+#  File Media & Statis Django
+#  Abaikan folder tempat file media yang diunggah pengguna disimpan
+#  dan folder tempat 'collectstatic' mengumpulkan semua file statis.
+# ===================================================================
+/media/
+/static_root/
+/staticfiles/
+
+
+# ===================================================================
+#  File Cache & Kompilasi Python
+# ===================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+
+# ===================================================================
+#  Log & File Sementara
+# ===================================================================
+*.log
+*.pot
+*.pyc
+celerybeat-schedule
+
+
+# ===================================================================
+#  Konfigurasi IDE / Editor
+# ===================================================================
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.project
+.pydevproject
+.settings/
+
+
+# ===================================================================
+#  File Sistem Operasi
+# ===================================================================
+.DS_Store
+Thumbs.db
+desktop.ini
