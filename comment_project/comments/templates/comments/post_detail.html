@@ -1,29 +1,44 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>{{ post.title }}</title>
-</head>
-<body>
-  <h1>{{ post.title }}</h1>
-  <p>{{ post.content }}</p>
-  <p>Posted by {{ post.author.username }} on {{ post.date_posted }}</p>
+{% extends 'comments/base.html' %}
 
-  <h2>Comments</h2>
+{% block title %}{{ post.title }}{% endblock %}
 
-  <form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Add Comment</button>
-  </form>
+{% block content %}
+  <article class="post-card">
+    <h2>{{ post.title }}</h2>
+    <div class="post-card-meta">
+      By {{ post.author.username }} on {{ post.date_posted|date:"F d, Y" }}
+    </div>
+    <p style="margin-top: 20px;">{{ post.content|linebreaks }}</p>
+  </article>
 
-  <ul>
-    {% for comment in comments %}
-      <li><strong>{{ comment.user.username }}</strong>: {{ comment.content }} ({{ comment.date_posted }})</li>
-    {% empty %}
-      <li>No comments yet.</li>
-    {% endfor %}
-  </ul>
+  <hr style="margin: 30px 0;">
 
-  <a href="{% url 'home' %}">Back to All Posts</a>
-</body>
-</html>
+  <section class="comments-section">
+    <h3>Comments ({{ comments.count }})</h3>
+    
+    {% if user.is_authenticated %}
+      <form method="POST">
+        {% csrf_token %}
+        <div class="form-field">
+          {{ form.as_p }}
+        </div>
+        <button type="submit">Post Comment</button>
+      </form>
+    {% else %}
+      <p><a href="{% url 'login' %}">Login</a> to post a comment.</p>
+    {% endif %}
+
+    <div class="comments-list" style="margin-top: 30px;">
+      {% for comment in comments %}
+        <div class="comment">
+          <div class="comment-meta">
+            <strong>{{ comment.user.username }}</strong> on {{ comment.date_posted|date:"F d, Y" }}
+          </div>
+          <p>{{ comment.content|linebreaks }}</p>
+        </div>
+      {% empty %}
+        <p>No comments yet.</p>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

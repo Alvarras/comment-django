@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+# Import os module
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -105,7 +107,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# Mengubah Zona Waktu ke Asia/Jakarta
+TIME_ZONE = 'Asia/Jakarta'
 
 USE_I18N = True
 
@@ -117,7 +120,20 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# Penambahan Konfigurasi untuk File Statis (CSS, JS, dll.)
+# Memberitahu Django di mana harus mencari folder static kustom kita.
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Menambahkan URL untuk Login dan Logout
+# Setelah logout, pengguna akan diarahkan ke halaman home
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
