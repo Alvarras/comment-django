@@ -1,6 +1,14 @@
 from django import forms
-from .models import Comment
+# Import Post model
+from .models import Comment, Post
 
+# Form untuk menambah Post baru
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'content']
+
+# Form untuk menambah komentar (sudah ada)
 class CommentForm(forms.ModelForm):
     content = forms.CharField(
         label='',
