@@ -6,6 +6,8 @@ from rest_framework import serializers
 
 class PostSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
+    id = serializers.UUIDField(read_only=True)
+    date_posted = serializers.DateTimeField(read_only=True)
     class Meta:
         model = Post
         fields = ['id', 'title', 'content', 'date_posted', 'author']
@@ -13,6 +15,8 @@ class PostSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
     post = serializers.PrimaryKeyRelatedField(queryset=Post.objects.all())
+    id = serializers.UUIDField(read_only=True)
+    date_posted = serializers.DateTimeField(read_only=True)
     class Meta:
         model = Comment
         fields = ['id', 'post', 'user', 'content', 'date_posted']
