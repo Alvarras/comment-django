@@ -1,0 +1,6 @@
+source venv/bin/activate
+python3 manage.py dbshell
+.table
+.mode column
+.headers on
+.width 36 40 30 20
