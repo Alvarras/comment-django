@@ -7,6 +7,10 @@
     <h2>{{ post.title }}</h2>
     <div class="post-card-meta">
       By {{ post.author.username }} on {{ post.date_posted|date:"F d, Y" }}
+      {% if user == post.author %}
+        | <a href="{% url 'edit_post' post.pk %}" class="button" style="padding: 4px 10px; font-size: 0.9em;">Edit</a>
+        <a href="{% url 'delete_post' post.pk %}" class="button" style="padding: 4px 10px; font-size: 0.9em; background: #e53e3e;">Delete</a>
+      {% endif %}
     </div>
     <p style="margin-top: 20px;">{{ post.content|linebreaks }}</p>
   </article>
@@ -33,6 +37,10 @@
         <div class="comment">
           <div class="comment-meta">
             <strong>{{ comment.user.username }}</strong> on {{ comment.date_posted|date:"F d, Y" }}
+            {% if user == comment.user %}
+              | <a href="{% url 'edit_comment' post.pk comment.pk %}" class="button" style="padding: 2px 8px; font-size: 0.8em;">Edit</a>
+              <a href="{% url 'delete_comment' post.pk comment.pk %}" class="button" style="padding: 2px 8px; font-size: 0.8em; background: #e53e3e;">Delete</a>
+            {% endif %}
           </div>
           <p>{{ comment.content|linebreaks }}</p>
         </div>

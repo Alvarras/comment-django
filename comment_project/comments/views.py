@@ -46,3 +46,47 @@ def post_detail(request, pk):
         'comments': comments,
         'form': form,
     })
+
+@login_required
+def edit_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if post.author != request.user:
+        return redirect('home')
+    if request.method == 'POST':
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('post_detail', pk=post.pk)
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'comments/add_post.html', {'form': form, 'edit': True})
+
+@login_required
+def delete_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if post.author == request.user:
+        post.delete()
+    return redirect('home')
+
+@login_required
+def edit_comment(request, post_pk, comment_pk):
+    post = get_object_or_404(Post, pk=post_pk)
+    comment = get_object_or_404(post.comments, pk=comment_pk)
+    if comment.user != request.user:
+        return redirect('post_detail', pk=post.pk)
+    if request.method == 'POST':
+        form = CommentForm(request.POST, instance=comment)
+        if form.is_valid():
+            form.save()
+            return redirect('post_detail', pk=post.pk)
+    else:
+        form = CommentForm(instance=comment)
+    return render(request, 'comments/edit_comment.html', {'form': form, 'post': post, 'comment': comment})
+
+@login_required
+def delete_comment(request, post_pk, comment_pk):
+    post = get_object_or_404(Post, pk=post_pk)
+    comment = get_object_or_404(post.comments, pk=comment_pk)
+    if comment.user == request.user:
+        comment.delete()
+    return redirect('post_detail', pk=post.pk)

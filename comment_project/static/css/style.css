@@ -70,22 +70,37 @@ body {
 }
 
 /* Form Styling */
-form {
-    margin-top: 20px;
+.form-container {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 30px 25px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.08);
 }
-
-textarea, input[type="text"] {
+.form-container h2 {
+    margin-bottom: 20px;
+    color: #5a67d8;
+    text-align: center;
+}
+.form-container form {
+    margin-top: 0;
+}
+.form-container button {
     width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box; /* Important */
-    margin-bottom: 10px;
-    font-size: 1em;
+    margin-top: 10px;
 }
-
-.form-field p {
-    margin: 0 0 15px 0;
+.form-container p {
+    text-align: center;
+    margin-top: 18px;
+    color: #555;
+}
+.form-container a {
+    color: #5a67d8;
+    text-decoration: underline;
+}
+.form-container a:hover {
+    color: #4c58b6;
 }
 
 /* Button Styling */

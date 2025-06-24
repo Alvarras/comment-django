@@ -15,6 +15,10 @@
       <h2><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h2>
       <div class="post-card-meta">
         By {{ post.author.username }} on {{ post.date_posted|date:"F d, Y" }}
+        {% if user == post.author %}
+          | <a href="{% url 'edit_post' post.pk %}" class="button" style="padding: 4px 10px; font-size: 0.9em;">Edit</a>
+          <a href="{% url 'delete_post' post.pk %}" class="button" style="padding: 4px 10px; font-size: 0.9em; background: #e53e3e;">Delete</a>
+        {% endif %}
       </div>
       <p>{{ post.content|truncatewords:30 }}</p>
     </article>
