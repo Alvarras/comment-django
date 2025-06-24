@@ -4,12 +4,13 @@ A Django-based web application that provides a commenting system with user authe
 
 ## Features
 
-- User registration and authentication
-- JWT token-based authentication
-- Comment creation and management
-- RESTful API
+- User registration and authentication (web & API)
+- JWT token-based authentication for API
+- Comment and post creation, editing, and deletion (web & API)
+- RESTful API for posts and comments
 - API documentation via Swagger UI
 - Modern responsive UI
+- **All main features require login (web protected)**
 
 ## Prerequisites
 
@@ -64,14 +65,59 @@ python manage.py runserver
 ### Web Interface
 
 1. Access the application at: http://127.0.0.1:8000/
-2. Register a new account or log in with your credentials
-3. Create and manage comments through the web interface
+2. **You must register or login to access any main feature.**
+3. After login, you can create, edit, and delete posts and comments.
+4. Logout via the header menu.
+
+#### Web Endpoints:
+- Register: `/register/`
+- Login: `/login/`
+- Logout: `/logout/` (POST only, via header button)
+- Home (list posts): `/` (login required)
+- Post detail: `/post/<id>/` (login required)
+
+### User Registration & Authentication (API)
+
+- Register: 
+```
+POST http://127.0.0.1:8000/api/auth/register/
+Content-Type: application/json
+{
+  "username": "your_username",
+  "email": "your_email@example.com",
+  "password": "your_password"
+}
+```
+
+- Login (Get JWT Token): 
+```
+POST http://127.0.0.1:8000/api/token/
+Content-Type: application/json
+{
+  "username": "your_username",
+  "password": "your_password"
+}
+```
+
+- Refresh JWT Token:
+```
+POST http://127.0.0.1:8000/api/token/refresh/
+Content-Type: application/json
+{
+  "refresh": "your_refresh_token..."
+}
+```
+
+- Get current user info (session):
+```
+GET http://127.0.0.1:8000/api/auth/me/  (requires login session)
+```
 
 ### API Authentication
 
 The application uses JWT tokens for API authentication:
 
-1. Obtain a JWT token:
+1. Obtain a JWT token at `/api/token/`:
 ```
 curl -X POST http://127.0.0.1:8000/api/token/ \
   -H "Content-Type: application/json" \
@@ -88,7 +134,7 @@ curl -X POST http://127.0.0.1:8000/api/token/ \
 
 3. Use the access token in API requests:
 ```
-curl -H "Authorization: Bearer your_access_token..." http://127.0.0.1:8000/api/endpoint/
+curl -H "Authorization: Bearer your_access_token..." http://127.0.0.1:8000/api/comments/posts/
 ```
 
 4. Refresh the token when it expires:
@@ -100,15 +146,41 @@ curl -X POST http://127.0.0.1:8000/api/token/refresh/ \
 
 ### API Documentation
 
-The complete API documentation is available through Swagger UI:
+The complete API documentation is available at:
 
-- Swagger UI: http://127.0.0.1:8000/swagger/
-- ReDoc UI (alternative): http://127.0.0.1:8000/redoc/
+- Swagger UI: http://127.0.0.1:8000/api/docs/
+- ReDoc UI: http://127.0.0.1:8000/api/redoc/
 
-### User Management
+### CRUD Operations for Posts and Comments (API)
+
+All endpoints below require JWT authentication (see above):
+
+**Posts:**
+- List all posts: `GET /api/comments/posts/`
+- Create new post: `POST /api/comments/posts/`
+- Get post detail: `GET /api/comments/posts/{id}/`
+- Update post: `PUT /api/comments/posts/{id}/`
+- Delete post: `DELETE /api/comments/posts/{id}/`
+
+**Comments:**
+- List all comments: `GET /api/comments/comments/`
+- Create new comment: `POST /api/comments/comments/`
+- Get comment detail: `GET /api/comments/comments/{id}/`
+- Update comment: `PUT /api/comments/comments/{id}/`
+- Delete comment: `DELETE /api/comments/comments/{id}/`
+
+Example API request with JWT authentication:
+```
+curl -X POST http://127.0.0.1:8000/api/comments/comments/ \
+  -H "Authorization: Bearer your_access_token..." \
+  -H "Content-Type: application/json" \
+  -d '{"post": 1, "content": "This is my comment"}'
+```
+
+### User Management (API)
 
 - Register new users: http://127.0.0.1:8000/api/auth/register/
-- View user profile: http://127.0.0.1:8000/api/auth/profile/
+- View user info: http://127.0.0.1:8000/api/auth/me/
 
 ## Project Structure
 
@@ -134,9 +206,9 @@ comment_project/
 ## Dependencies
 
 - Django 5.2.3
-- Django REST Framework 3.16.0
-- djangorestframework-simplejwt 5.5.0
-- drf-yasg 1.21.10 (for Swagger)
+- Django REST Framework
+- djangorestframework-simplejwt
+- drf-yasg (for Swagger)
 - Other dependencies listed in requirements.txt
 
 ## License
