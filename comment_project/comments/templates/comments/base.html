@@ -12,16 +12,18 @@
     <div class="container">
         <header class="header">
             <h1><a href="{% url 'home' %}" style="color: #333;">Django Comments App</a></h1>
-            {% comment %}
             <div>
                 {% if user.is_authenticated %}
                     <span>Hello, {{ user.username }}</span>
-                    <a href="{% url 'logout' %}" style="margin-left: 15px;">Logout</a>
+                    <form action="{% url 'logout' %}" method="post" style="display:inline; margin-left: 15px;">
+                        {% csrf_token %}
+                        <button type="submit" style="background:none; border:none; color:#5a67d8; cursor:pointer; font-weight:bold; padding:0;">Logout</button>
+                    </form>
                 {% else %}
-                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'login' %}">Login</a> |
+                    <a href="{% url 'register' %}">Register</a>
                 {% endif %}
             </div>
-             {% endcomment %}
         </header>
 
         <main>

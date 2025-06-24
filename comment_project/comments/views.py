@@ -5,6 +5,7 @@ from .models import Post
 # Import form yang baru kita buat
 from .forms import CommentForm, PostForm
 
+@login_required
 def home(request):
     posts = Post.objects.all().order_by('-date_posted')
     return render(request, 'comments/home.html', {'posts': posts})
@@ -26,6 +27,7 @@ def add_post(request):
         form = PostForm()
     return render(request, 'comments/add_post.html', {'form': form})
 
+@login_required
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     comments = post.comments.all().order_by('-date_posted')
